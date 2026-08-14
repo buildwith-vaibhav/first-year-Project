@@ -20,10 +20,6 @@ A simple command-line Library Management System written in Python. It uses a CSV
 ## How to Run
 
 1. Clone the repository or download the files:
-   ```bash
-   git clone <your-repo-url>
-   cd <repo-folder>
-   ```
 
 2. Run the program:
    ```bash
