@@ -79,9 +79,7 @@ No build tools or dependencies required.
 4. Proceed to **Checkout**, fill in your details and pickup time, and place the order.
 5. You'll receive an order number (e.g. `M-4829`) — track it anytime on the **Order Status** page.
 
-## 📄 License
 
-This project is open source and available for personal or educational use. Feel free to fork and customize it for your own café or restaurant concept.
 
 ---
 
