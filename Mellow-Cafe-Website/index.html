@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mellow — Your soft place to land</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#home" class="logo">Mellow</a>
+      <nav class="nav" id="main-nav">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#team">Team</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#visit">Visit</a>
+        <a href="#order-status">Order Status</a>
+        <button class="btn btn-primary" id="open-cart-btn">Cart <span class="cart-count" id="cart-count">0</span></button>
+      </nav>
+      <button class="nav-toggle" id="nav-toggle"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section id="home" class="hero page-section">
+    <div class="hero-bg"></div>
+    <div class="hero-slider" aria-label="Mellow café highlights">
+  <img class="hero-slide active"
+    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1800&q=85"
+    alt="Fresh coffee served at a café">
+
+  <img class="hero-slide"
+    src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1800&q=85"
+    alt="Warm and welcoming café interior">
+
+  <img class="hero-slide"
+    src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
+    alt="Friends enjoying food at a café">
+
+  <div class="slider-controls">
+    <button type="button" class="slider-arrow" id="slider-prev" aria-label="Previous image">‹</button>
+
+    <div class="slider-dots">
+      <button type="button" class="slider-dot active" aria-label="Slide 1"></button>
+      <button type="button" class="slider-dot" aria-label="Slide 2"></button>
+      <button type="button" class="slider-dot" aria-label="Slide 3"></button>
+    </div>
+
+    <button type="button" class="slider-arrow" id="slider-next" aria-label="Next image">›</button>
+  </div>
+</div>
+    <div class="container hero-content">
+      <p class="eyebrow">Specialty coffee · Soft light · Global comfort</p>
+      <h1>Your soft place<br>to land</h1>
+      <p class="hero-sub">Slow sips. Warm light. Food from around the world, made soft.</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn-primary">View Menu</a>
+        <button class="btn btn-secondary" id="hero-cart-btn">Open Cart</button>
+      </div>
+      <div class="hero-meta">
+        <div><span class="meta-label">Today</span><span class="meta-value">7:30 AM – 9:00 PM</span></div>
+        <div><span class="meta-label">Location</span><span class="meta-value">12 Willow Lane</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="menu-section page-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">Menu</p>
+        <h2>What we’re pouring & plating</h2>
+        <p class="section-desc">Tap any item to customize size, sauce & extras.</p>
+      </div>
+      <div class="menu-filters" id="category-tabs">
+        <button class="filter active" data-category="all">All</button>
+        <button class="filter" data-category="drinks">Signature Drinks</button>
+        <button class="filter" data-category="chinese">Chinese</button>
+        <button class="filter" data-category="italian">Italian</button>
+        <button class="filter" data-category="mexican">Mexican</button>
+        <button class="filter" data-category="indian">Indian</button>
+      </div>
+      <div class="menu-grid" id="menu-grid"></div>
+    </div>
+  </section>
+
+  <!-- TEAM / OWNER -->
+  <section id="team" class="team-section page-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">People</p>
+        <h2>The soft hands behind Mellow</h2>
+      </div>
+      <div class="team-grid" id="team-grid"></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="reviews-section page-section">
+    <div class="container">
+      <div class="section-header">
+        <p class="eyebrow">Reviews</p>
+        <h2>Kind words from the window seat</h2>
+      </div>
+      <div class="reviews-layout">
+        <div class="reviews-list" id="reviews-list"></div>
+        <form id="review-form" class="review-form">
+          <h3>Leave a soft note</h3>
+          <div class="form-group">
+            <label for="rev-name">Your name</label>
+            <input type="text" id="rev-name" placeholder="Alex">
+          </div>
+          <div class="form-group">
+            <label for="rev-rating">Rating</label>
+            <select id="rev-rating">
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rev-text">Your review</label>
+            <textarea id="rev-text" required placeholder="What felt soft today?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary full-width">Submit Review</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="cart" class="cart-section page-section">
+    <div class="container">
+      <div class="section-header"><p class="eyebrow">Your Cart</p><h2>Ready when you are</h2></div>
+      <div id="cart-empty" class="cart-empty"><p>Your cart is empty.</p><a href="#menu" class="btn btn-primary">Browse Menu</a></div>
+      <div id="cart-content" class="hidden">
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-summary">
+          <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
+          <div class="summary-row total"><span>Total</span><span id="cart-total">₹0</span></div>
+          <button class="btn btn-primary full-width" id="checkout-btn">Proceed to Checkout</button>
+          <button class="btn btn-secondary full-width" id="clear-cart-btn">Clear Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="checkout" class="checkout-section page-section">
+    <div class="container">
+      <div class="section-header"><p class="eyebrow">Checkout</p><h2>Almost there</h2></div>
+      <div class="checkout-grid">
+        <form id="checkout-form" class="checkout-form">
+          <div class="form-group"><label for="c-name">Full Name</label><input type="text" id="c-name" required placeholder="Alex Rivera"></div>
+          <div class="form-group"><label for="c-phone">Phone</label><input type="tel" id="c-phone" required placeholder="98765 43210"></div>
+          <div class="form-group"><label for="c-email">Email (optional)</label><input type="email" id="c-email" placeholder="alex@email.com"></div>
+          <div class="form-group"><label for="c-time">Preferred Pickup</label>
+            <select id="c-time" required>
+              <option value="">Select time</option>
+              <option value="asap">As soon as possible</option>
+              <option value="15">In 15 min</option>
+              <option value="30">In 30 min</option>
+              <option value="45">In 45 min</option>
+              <option value="60">In 1 hour</option>
+            </select>
+          </div>
+          <div class="form-group"><label for="c-notes">Special requests</label><textarea id="c-notes" placeholder="Extra soft, no onion..."></textarea></div>
+          <div class="form-group"><label for="c-chef">Special instruction for chef</label><textarea id="c-chef" placeholder="Tell the kitchen anything extra soft or specific..."></textarea></div>
+          <button type="submit" class="btn btn-primary full-width">Place Order</button>
+        </form>
+        <div class="checkout-summary">
+          <h3>Order Summary</h3>
+          <div id="checkout-items"></div>
+          <div class="summary-row total"><span>Total</span><span id="checkout-total">₹0</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="confirmation" class="confirmation-section page-section">
+    <div class="container">
+      <div class="confirm-card">
+        <div class="confirm-icon">✓</div>
+        <h2>Order Confirmed</h2>
+        <p class="confirm-msg">Thank you! We’ve received your order.</p>
+        <div class="order-details">
+          <div class="detail-row"><span>Order Number</span><strong id="order-number">—</strong></div>
+          <div class="detail-row"><span>Estimated Ready</span><strong id="order-eta">—</strong></div>
+          <div class="detail-row"><span>Customer</span><strong id="order-customer">—</strong></div>
+        </div>
+        <p class="confirm-note">Track it anytime on the Order Status page.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-primary" id="go-to-status">Track Order</button>
+          <a href="#menu" class="btn btn-secondary">Back to Menu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="order-status" class="status-section page-section">
+    <div class="container">
+      <div class="section-header"><p class="eyebrow">Track</p><h2>Order Status</h2></div>
+      <div class="status-lookup">
+        <input type="text" id="lookup-order" placeholder="Enter Order Number (e.g. M-4829)">
+        <button class="btn btn-primary" id="lookup-btn">Track</button>
+      </div>
+      <div id="status-result" class="status-result hidden">
+        <div class="status-header">
+          <h3>Order <span id="status-order-id"></span></h3>
+          <p>For <span id="status-customer-name"></span></p>
+        </div>
+        <div class="status-timeline" id="status-timeline"></div>
+        <div class="staff-card">
+          <p class="staff-label">Currently being prepared by</p>
+          <p class="staff-name" id="staff-name">—</p>
+          <p class="staff-role" id="staff-role">—</p>
+        </div>
+        <div class="eta-box"><span>Estimated ready in</span><strong id="status-eta">—</strong></div>
+      </div>
+      <div id="status-not-found" class="status-not-found hidden"><p>Order not found. Please check the number.</p></div>
+    </div>
+  </section>
+
+  <section id="visit" class="visit-section page-section">
+    <div class="container">
+      <div class="visit-grid">
+        <div class="visit-info">
+          <p class="eyebrow">Visit & Contact</p>
+          <h2>Come linger</h2>
+          <div class="info-block"><h4>Hours</h4><p>Mon–Fri 7:30 AM – 9:00 PM<br>Sat–Sun 8:00 AM – 9:00 PM</p></div>
+          <div class="info-block"><h4>Location</h4><p>12 Willow Lane<br>Creative District</p></div>
+          <div class="info-block contact-block">
+            <h4>Contact</h4>
+            <p>
+              <a href="tel:+919876543210">+91 98765 43210</a><br>
+              <a href="mailto:hello@mellow.cafe">hello@mellow.cafe</a><br>
+              Instagram · @mellowcafe
+            </p>
+          </div>
+        </div>
+        <div class="visit-map"><div class="map-placeholder"><p>Map</p><span>12 Willow Lane</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-section page-section">
+    <div class="container">
+      <div class="about-content">
+        <p class="eyebrow">About</p>
+        <h2>Why Mellow exists</h2>
+        <p class="about-text">We wanted a place that feels like a deep breath. Good coffee, soft light, and comfort food from around the world — made with care.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><span class="logo">Mellow</span><p>Your soft place to land.</p></div>
+      <div class="footer-links">
+        <a href="#menu">Menu</a><a href="#team">Team</a><a href="#cart">Cart</a>
+        <a href="#order-status">Order Status</a><a href="#visit">Visit</a>
+      </div>
+      <div class="footer-contact">
+        <p>+91 98765 43210 · hello@mellow.cafe</p>
+        <p>12 Willow Lane · Creative District</p>
+      </div>
+      <p class="footer-copy">© 2026 Mellow</p>
+    </div>
+  </footer>
+
+  <!-- Customize Modal -->
+  <div class="modal-overlay" id="customize-modal">
+    <div class="modal cust-modal">
+      <button class="modal-close" id="close-customize">&times;</button>
+      <h3 id="cust-name">Item</h3>
+      <p class="modal-sub" id="cust-desc"></p>
+      <p class="cust-base">From <span id="cust-base-price">₹0</span></p>
+
+      <div id="cust-size-wrap" class="cust-option">
+        <label class="opt-label">Size</label>
+        <div class="size-options">
+          <label class="size-chip"><input type="radio" name="cust-size" value="mini"> Mini <span>+₹0</span></label>
+          <label class="size-chip"><input type="radio" name="cust-size" value="medium" checked> Medium <span>+₹40</span></label>
+          <label class="size-chip"><input type="radio" name="cust-size" value="large"> Large <span>+₹80</span></label>
+        </div>
+      </div>
+
+      <div id="cust-sauce-wrap" class="cust-option">
+        <label class="check-row"><input type="checkbox" id="cust-sauce"> Add sauce <span>+₹30</span></label>
+      </div>
+
+      <div id="cust-cheese-wrap" class="cust-option">
+        <label class="check-row"><input type="checkbox" id="cust-cheese"> Extra cheese <span>+₹40</span></label>
+      </div>
+
+      <div class="cust-option">
+        <label class="opt-label">Quantity</label>
+        <input type="number" id="cust-qty" min="1" value="1" class="qty-input">
+      </div>
+
+      <div class="cust-total-row">
+        <span>Total</span>
+        <strong id="cust-total">₹0</strong>
+      </div>
+      <button class="btn btn-primary full-width" id="add-customized">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <button class="back-to-top" id="back-to-top">↑</button>
+  <script src="app.js"></script>
+</body>
+</html>
