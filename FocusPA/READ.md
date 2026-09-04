@@ -4,7 +4,7 @@
 
 Offline-first web app that brings tasks, deadlines, study focus, and expenses into one clean dashboard — built for students.
 
-![FocusPA Dashboard](Screenshots/01-dashboard.png)
+![FocusPA Dashboard](Screenshot/01-dashboard.png)
 
 ---
 
@@ -30,15 +30,15 @@ Offline-first web app that brings tasks, deadlines, study focus, and expenses in
 ## Screenshots
 
 <p align="center">
-  <img src="Screenshots/01-dashboard.png" width="48%" />
-  <img src="Screenshots/03-timer.png" width="48%" />
+  <img src="Screenshot/01-dashboard.png" width="48%" />
+  <img src="Screenshot/03-timer.png" width="48%" />
 </p>
 <p align="center">
-  <img src="Screenshots/02-tasks.png" width="48%" />
-  <img src="Screenshots/04-expenses.png" width="48%" />
+  <img src="Screenshot/02-tasks.png" width="48%" />
+  <img src="Screenshot/04-expenses.png" width="48%" />
 </p>
 <p align="center">
-  <img src="Screenshots/06-mobile-dashboard.png" width="30%" />
+  <img src="Screenshot/06-mobile-dashboard.png" width="30%" />
 </p>
 
 ---
