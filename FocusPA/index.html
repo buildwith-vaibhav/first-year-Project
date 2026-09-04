@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Your Student productivity assistant – Tasks, Expenses, Events & Study Timer – Tasks, Expenses, Events & Study Timer" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>FocusPA</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="icons/icon-192.png" />
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar / Bottom Nav -->
+    <nav id="nav" class="nav">
+      <button class="nav-btn active" data-view="dashboard" title="Dashboard">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-btn" data-view="tasks" title="Tasks">
+        <span class="nav-icon">✅</span>
+        <span class="nav-label">Tasks</span>
+      </button>
+      <button class="nav-btn" data-view="events" title="Events">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">Events</span>
+      </button>
+      <button class="nav-btn" data-view="timer" title="Study Timer">
+        <span class="nav-icon">⏱️</span>
+        <span class="nav-label">Timer</span>
+      </button>
+      <button class="nav-btn" data-view="expenses" title="Expenses">
+        <span class="nav-icon">💰</span>
+        <span class="nav-label">Money</span>
+      </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <div id="greeting-block">
+            <h1 id="greeting-text">Hello, Vaibhav</h1>
+            <p id="greeting-msg" class="subtitle">Let's make today productive.</p>
+          </div>
+          <div id="view-title-block" class="hidden">
+            <h1 id="view-title">Dashboard</h1>
+            <p id="view-subtitle" class="subtitle"></p>
+          </div>
+        </div>
+        <div class="header-right">
+          <button id="autosync-btn" class="btn sync-btn" title="Auto-sync to a file (PC Chrome/Edge)">🔄 Auto-sync</button>
+          <button id="export-btn" class="btn sync-btn" title="Export / Save data">💾 Save</button>
+          <button id="import-btn" class="btn sync-btn" title="Import / Load data">📂 Load</button>
+          <input type="file" id="import-file" accept=".json,application/json" style="display:none" />
+          <button id="mode-toggle" class="btn-icon" title="Toggle Exam Mode">🎓</button>
+          <button id="quick-add-btn" class="btn primary" title="Quick Add (Ctrl+Shift+A)">+</button>
+        </div>
+      </header>
+
+      <!-- Views -->
+      <div id="views">
+        <!-- DASHBOARD -->
+        <section id="view-dashboard" class="view active">
+          <div class="dashboard-grid">
+            <!-- Top 3 Tasks -->
+            <div class="card" id="dash-tasks">
+              <div class="card-header">
+                <h2>🎯 Focus (Top 3)</h2>
+                <button class="btn-text" data-goto="tasks">See all</button>
+              </div>
+              <div id="dash-tasks-list" class="task-list compact"></div>
+              <p class="empty-state" id="dash-tasks-empty">No high-priority tasks. Add some!</p>
+            </div>
+
+            <!-- Next Event -->
+            <div class="card" id="dash-event">
+              <div class="card-header">
+                <h2>📅 Next Up</h2>
+                <button class="btn-text" data-goto="events">Calendar</button>
+              </div>
+              <div id="dash-next-event"></div>
+            </div>
+
+            <!-- Study Progress -->
+            <div class="card" id="dash-study">
+              <div class="card-header">
+                <h2>📚 Today's Study</h2>
+                <button class="btn-text" data-goto="timer">Timer</button>
+              </div>
+              <div class="study-progress">
+                <div class="progress-ring-wrap">
+                  <svg class="progress-ring" width="80" height="80">
+                    <circle class="progress-ring-bg" cx="40" cy="40" r="34" />
+                    <circle class="progress-ring-fill" cx="40" cy="40" r="34" id="study-ring" />
+                  </svg>
+                  <div class="progress-center">
+                    <span id="study-hours">0.0</span>
+                    <small>hrs</small>
+                  </div>
+                </div>
+                <div class="study-meta">
+                  <p>Goal: <strong id="study-goal">4</strong>h</p>
+                  <p id="study-streak">🔥 0 day streak</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Budget Snapshot -->
+            <div class="card" id="dash-budget">
+              <div class="card-header">
+                <h2>💸 This Month</h2>
+                <button class="btn-text" data-goto="expenses">Details</button>
+              </div>
+              <div id="dash-budget-summary"></div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card full-width" id="dash-quick">
+              <div class="quick-stats">
+                <div class="stat">
+                  <span class="stat-value" id="stat-overdue">0</span>
+                  <span class="stat-label">Overdue</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value" id="stat-upcoming">0</span>
+                  <span class="stat-label">Upcoming</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value" id="stat-events">0</span>
+                  <span class="stat-label">Events</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-value" id="stat-spent">₹0</span>
+                  <span class="stat-label">Spent</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TASKS -->
+        <section id="view-tasks" class="view">
+          <div class="toolbar">
+            <div class="filters">
+              <button class="filter-btn active" data-filter="today">Today</button>
+              <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+              <button class="filter-btn" data-filter="overdue">Overdue</button>
+              <button class="filter-btn" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="focus">Focus</button>
+            </div>
+            <div class="search-wrap">
+              <input type="search" id="task-search" placeholder="Search tasks..." />
+            </div>
+          </div>
+          <div class="projects-bar" id="projects-bar"></div>
+          <div id="tasks-list" class="task-list"></div>
+          <p class="empty-state" id="tasks-empty">No tasks here. Add one with the + button!</p>
+        </section>
+
+        <!-- EVENTS -->
+        <section id="view-events" class="view">
+          <div class="toolbar">
+            <div class="filters">
+              <button class="filter-btn active" data-event-view="upcoming">Upcoming</button>
+              <button class="filter-btn" data-event-view="month">Month</button>
+              <button class="filter-btn" data-event-view="deadlines">Deadlines</button>
+            </div>
+          </div>
+          <div id="events-list" class="events-list"></div>
+          <div id="events-calendar" class="calendar hidden"></div>
+          <p class="empty-state" id="events-empty">No upcoming events.</p>
+        </section>
+
+        <!-- TIMER -->
+        <section id="view-timer" class="view">
+          <div class="timer-container">
+            <div class="timer-mode-selector">
+              <button class="mode-btn active" data-mode="25/5">25 / 5</button>
+              <button class="mode-btn" data-mode="45/10">45 / 10</button>
+              <button class="mode-btn" data-mode="50/10">50 / 10</button>
+              <button class="mode-btn" data-mode="custom">Custom</button>
+            </div>
+
+            <div class="timer-display">
+              <div class="timer-ring">
+                <svg width="220" height="220">
+                  <circle class="timer-bg" cx="110" cy="110" r="100" />
+                  <circle class="timer-progress" cx="110" cy="110" r="100" id="timer-progress" />
+                </svg>
+                <div class="timer-time" id="timer-time">25:00</div>
+                <div class="timer-label" id="timer-label">Focus</div>
+              </div>
+            </div>
+
+            <div class="timer-controls">
+              <button id="timer-start" class="btn primary large">Start</button>
+              <button id="timer-pause" class="btn secondary large hidden">Pause</button>
+              <button id="timer-reset" class="btn-icon large" title="Reset">↺</button>
+            </div>
+
+            <div class="timer-task-select">
+              <label>Link to task / subject</label>
+              <select id="timer-task">
+                <option value="">— Free focus —</option>
+              </select>
+            </div>
+
+            <div class="timer-stats card">
+              <h3>Today</h3>
+              <div class="timer-stats-row">
+                <div>
+                  <span class="big" id="today-focus">0</span>
+                  <span>min focused</span>
+                </div>
+                <div>
+                  <span class="big" id="today-sessions">0</span>
+                  <span>sessions</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="session-history">
+              <h3>Recent Sessions</h3>
+              <div id="session-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXPENSES -->
+        <section id="view-expenses" class="view">
+          <div class="toolbar">
+            <div class="month-nav">
+              <button id="exp-prev" class="btn-icon">‹</button>
+              <span id="exp-month-label">September 2026</span>
+              <button id="exp-next" class="btn-icon">›</button>
+            </div>
+          </div>
+
+          <div class="expense-summary card">
+            <div class="exp-total">
+              <span class="label">Total Spent</span>
+              <span class="value" id="exp-total">₹0</span>
+            </div>
+            <div id="exp-budget-bars"></div>
+          </div>
+
+          <div class="expense-categories" id="exp-categories"></div>
+
+          <div class="expense-list-header">
+            <h3>Transactions</h3>
+            <button class="btn-text" id="export-csv">Export CSV</button>
+          </div>
+          <div id="expenses-list" class="expense-list"></div>
+          <p class="empty-state" id="expenses-empty">No expenses this month.</p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Quick Add Modal -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="quick-add-modal">
+      <div class="modal-header">
+        <h2>Quick Add</h2>
+        <button class="btn-icon modal-close">×</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="tab active" data-tab="task">Task</button>
+        <button class="tab" data-tab="expense">Expense</button>
+        <button class="tab" data-tab="event">Event</button>
+        <button class="tab" data-tab="session">Study</button>
+      </div>
+
+      <!-- Task Form -->
+      <form id="form-task" class="modal-form">
+        <input type="text" id="task-title" placeholder="What needs to be done?" required autofocus />
+        <div class="form-row">
+          <input type="date" id="task-due" />
+          <select id="task-priority">
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <select id="task-project">
+            <option value="Personal">Personal</option>
+            <option value="Study">Study</option>
+            <option value="Part-time">Part-time</option>
+            <option value="College">College</option>
+          </select>
+          <input type="text" id="task-tags" placeholder="tags (comma separated)" />
+        </div>
+        <textarea id="task-notes" placeholder="Notes / subtasks..." rows="2"></textarea>
+        <button type="submit" class="btn primary full">Add Task</button>
+      </form>
+
+      <!-- Expense Form -->
+      <form id="form-expense" class="modal-form hidden">
+        <div class="form-row">
+          <input type="number" id="exp-amount" placeholder="Amount (₹)" step="1" min="1" required />
+          <select id="exp-category">
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Study">Study</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Rent">Rent / Mess</option>
+            <option value="Subscriptions">Subscriptions</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <select id="exp-mode">
+            <option value="UPI">UPI</option>
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+          </select>
+          <input type="date" id="exp-date" />
+        </div>
+        <input type="text" id="exp-note" placeholder="Note (optional)" />
+        <button type="submit" class="btn primary full">Add Expense</button>
+      </form>
+
+      <!-- Event Form -->
+      <form id="form-event" class="modal-form hidden">
+        <input type="text" id="event-title" placeholder="Event title" required />
+        <div class="form-row">
+          <input type="datetime-local" id="event-start" required />
+          <input type="datetime-local" id="event-end" />
+        </div>
+        <div class="form-row">
+          <select id="event-type">
+            <option value="Exam">Exam</option>
+            <option value="Assignment">Assignment</option>
+            <option value="College">College</option>
+            <option value="Personal">Personal</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" id="event-location" placeholder="Location (optional)" />
+        </div>
+        <input type="text" id="event-course" placeholder="Course / Project (optional)" />
+        <button type="submit" class="btn primary full">Add Event</button>
+      </form>
+
+      <!-- Study Session Form -->
+      <form id="form-session" class="modal-form hidden">
+        <p class="hint">Start a focused study session now</p>
+        <select id="session-task">
+          <option value="">— Free focus —</option>
+        </select>
+        <div class="form-row">
+          <select id="session-mode">
+            <option value="25">25 min</option>
+            <option value="45">45 min</option>
+            <option value="50">50 min</option>
+            <option value="90">90 min</option>
+          </select>
+        </div>
+        <button type="submit" class="btn primary full">Start Session</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/expenses.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
